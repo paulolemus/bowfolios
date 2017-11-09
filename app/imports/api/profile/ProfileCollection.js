@@ -31,6 +31,7 @@ class ProfileCollection extends BaseCollection {
       github: { type: SimpleSchema.RegEx.Url, optional: true },
       facebook: { type: SimpleSchema.RegEx.Url, optional: true },
       instagram: { type: SimpleSchema.RegEx.Url, optional: true },
+      location: { type: String, optional: true },
     }, { tracker: Tracker }));
   }
 
@@ -56,11 +57,11 @@ class ProfileCollection extends BaseCollection {
    * @returns The newly created docID.
    */
   define({ firstName = '', lastName = '', username, bio = '', interests = [], picture = '', title = '', github = '',
-      facebook = '', instagram = '' }) {
+      facebook = '', instagram = '', location = '' }) {
     // make sure required fields are OK.
     const checkPattern = { firstName: String, lastName: String, username: String, bio: String, picture: String,
-      title: String };
-    check({ firstName, lastName, username, bio, picture, title }, checkPattern);
+      title: String, location: String };
+    check({ firstName, lastName, username, bio, picture, title, location }, checkPattern);
 
     if (this.find({ username }).count() > 0) {
       throw new Meteor.Error(`${username} is previously defined in another Profile`);
@@ -75,7 +76,7 @@ class ProfileCollection extends BaseCollection {
     }
 
     return this._collection.insert({ firstName, lastName, username, bio, interests, picture, title, github,
-      facebook, instagram });
+      facebook, instagram, location });
   }
 
   /**
@@ -95,7 +96,8 @@ class ProfileCollection extends BaseCollection {
     const github = doc.github;
     const facebook = doc.facebook;
     const instagram = doc.instagram;
-    return { firstName, lastName, username, bio, interests, picture, title, github, facebook, instagram };
+    const location = doc.location;
+    return { firstName, lastName, username, bio, interests, picture, title, github, facebook, instagram, location };
   }
 }
 

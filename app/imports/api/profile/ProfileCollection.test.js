@@ -62,6 +62,15 @@ if (Meteor.isServer) {
     });
 
     it('#define (illegal interest)', function test() {
+        const illegalInterests = ['foo'];
+        const username2 = 'philipmjohnson';
+        const defineObject2 = { firstName, lastName, username2, bio, illegalInterests, picture, title,
+                github, facebook, instagram };
+        expect(function foo() { Profiles.define(defineObject2);  }).to.throw(Error);
+
+    });
+
+    it('#define (illegal interest)', function test() {
       const illegalInterests = ['foo'];
       const defineObject2 = { firstName, lastName, username, bio, interests: illegalInterests, picture, title,
         github, facebook, instagram, location };
